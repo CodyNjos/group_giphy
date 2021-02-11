@@ -4,6 +4,7 @@ const { default: axios } = require('axios');
 
 const router = express.Router();
 console.log(`your API key is:${process.env.GIPHY_API_KEY}`)
+
 router.get('/random', (req, res) => {
   const GIPHY_URL = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API_KEY}`
 
@@ -12,8 +13,8 @@ router.get('/random', (req, res) => {
   }).catch(err => {
       console.log('Error getting gif', err.response)
       res.send(500);
-  })
-})
+  });
+});
 
 router.post('/tag/:search', (req, res) => {
   console.log(req.params.search)
@@ -24,10 +25,8 @@ router.post('/tag/:search', (req, res) => {
   }).catch(err => {
       console.log('Error getting gif', err.response)
       res.send(500);
-  })
-})
-
-
+  });
+});
 
 // return all favorite images
 router.get('/', (req, res) => {

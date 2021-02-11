@@ -8,29 +8,27 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 
-
 function* fetchGiphySaga() {
     try {
         let response = yield axios.get('/api/category');
 
         yield put({ type: 'SET_GIPHY', payload: response.data });
     } catch (error) {
-        console.log(`Error fetching giphy`, error)};
-    
-}
+        console.log(`Error fetching giphy`, error);
+    };
 
+};
 
 function* newGif(action) {
-    console.log('newGif',action.payload)
-    try{
+    console.log('newGif', action.payload)
+    try {
         let response = yield axios.post(`/api/favorite/tag/${action.payload}`)
-        yield put({type: 'SET_GIPHY', payload: response.data})
-    }catch (error) {
+        yield put({ type: 'SET_GIPHY', payload: response.data })
+    } catch (error) {
         console.log(`Error getting new gif`, error);
-    
-}
-}
 
+    };
+};
 
 function* fetchFavoritesSaga() {
     try {
@@ -55,8 +53,7 @@ function* rootGiphySaga() {
     yield takeEvery('FETCH_GIPHY', fetchGiphySaga);
     yield takeEvery('FETCH_FAVORITES', fetchFavoritesSaga);
     yield takeEvery('REMOVE_FAVORITE', removeFavoriteSaga);
-
-}
+};
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -66,8 +63,8 @@ const giphyReducer = (state = [], action) => {
             return action.payload;
         default:
             return state;
-    }
-}
+    };
+};
 
 
 const favoritesReducer = (state = [], action) => {
@@ -82,12 +79,10 @@ const favoritesReducer = (state = [], action) => {
 const storeInstance = createStore(
     combineReducers({
         giphyReducer,
-
         favoritesReducer
-
     }),
     applyMiddleware(sagaMiddleware, logger)
-)
+);
 
 sagaMiddleware.run(rootGiphySaga);
 
