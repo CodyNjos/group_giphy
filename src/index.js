@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 
 
-function* fetchGiphySaga(action) {
+function* fetchGiphySaga() {
     try {
         let response = yield axios.get('/api/category');
 
@@ -22,15 +22,25 @@ function* fetchGiphySaga(action) {
 function* fetchFavoritesSaga() {
     try {
         let response = yield axios.get('/api/favorite');
-        yield put({type: 'SET_FAVORITES', payload: response.data});
+        yield put({ type: 'SET_FAVORITES', payload: response.data });
     } catch (error) {
         console.log('Error in fetch', error);
+    };
+};
+
+function* removeFavoriteSaga(action) {
+    try {
+        yield axios.delete(`/api/favorite/delete/${action.payload}`);
+        yield put({ type: 'FETCH_FAVORITES' });
+    } catch (error) {
+        console.log('Error in delete', error);
     };
 };
 
 function* rootGiphySaga() {
     yield takeEvery('FETCH_GIPHY', fetchGiphySaga);
     yield takeEvery('FETCH_FAVORITES', fetchFavoritesSaga);
+    yield takeEvery('REMOVE_FAVORITE', removeFavoriteSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
