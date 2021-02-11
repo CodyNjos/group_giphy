@@ -48,24 +48,59 @@ function* removeFavoriteSaga(action) {
     };
 };
 
+function* fetchCategorySaga() {
+    try {
+        let response = yield axios.get('/api/category');
+        yield put({ type: 'SET_CATEGORIES', payload: response.data });
+    } catch (error) {
+        console.log('Error in fetch', error);
+    };
+};
+
+function* addFavoriteSaga(action) {
+    try {
+        yield axios.post(`api/favorite/addfavorite`, action.payload);
+        yield put({ type: 'RESET_STATE' });
+    } catch (error) {
+        console.log('Error in add', error);
+    };
+};
+
 function* rootGiphySaga() {
     yield takeEvery('NEW_GIPHY', newGif)
     yield takeEvery('FETCH_GIPHY', fetchGiphySaga);
     yield takeEvery('FETCH_FAVORITES', fetchFavoritesSaga);
     yield takeEvery('REMOVE_FAVORITE', removeFavoriteSaga);
+    yield takeEvery('FETCH_CATEGORIES', fetchCategorySaga);
+    yield takeEvery('ADD_FAVORITE', addFavoriteSaga)
 };
 
 const sagaMiddleware = createSagaMiddleware();
 
-const giphyReducer = (state = [], action) => {
+const giphyReducer = (state = { url: '', categoryId: 0 }, action) => {
+    let newState = { ...state };
+
     switch (action.type) {
         case 'SET_GIPHY':
-            return action.payload;
+            newState.url = action.payload;
+            return newState;
+        case 'SET_CATEGORYID':
+            newState.categoryId = action.payload;
+            return newState;
+        case 'RESET_STATE':
+            return { url: '', categoryId: 0 };
         default:
             return state;
     };
 };
 
+const categoryReducer = (state = [], action) => {
+    if (action.type === 'SET_CATEGORIES') {
+        return action.payload;
+    };
+
+    return state;
+};
 
 const favoritesReducer = (state = [], action) => {
     if (action.type === 'SET_FAVORITES') {
@@ -79,7 +114,8 @@ const favoritesReducer = (state = [], action) => {
 const storeInstance = createStore(
     combineReducers({
         giphyReducer,
-        favoritesReducer
+        favoritesReducer,
+        categoryReducer
     }),
     applyMiddleware(sagaMiddleware, logger)
 );
