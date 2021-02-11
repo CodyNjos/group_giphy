@@ -29,7 +29,17 @@ router.post('/tag', (req, res) => {
 
 // return all favorite images
 router.get('/', (req, res) => {
-  res.sendStatus(200);
+  console.log('retrieving all favorites');
+  const queryText = `SELECT f.id, url, category_id, name FROM "favorites" as f
+                    JOIN "category" as c on f."category_id" = c."id";`;
+
+  pool.query(queryText).then(response => {
+    console.log('Retrieved all favorites successfully');
+    res.status(200).send(response.rows);
+  }).catch(err => {
+    console.log('Error in get', err);
+    res.sendStatus(500);
+  });
 });
 
 // add a new favorite
