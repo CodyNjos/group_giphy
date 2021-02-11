@@ -51,6 +51,7 @@ function* removeFavoriteSaga(action) {
 };
 
 function* rootGiphySaga() {
+    yield takeEvery('NEW_GIPHY', newGif)
     yield takeEvery('FETCH_GIPHY', fetchGiphySaga);
     yield takeEvery('FETCH_FAVORITES', fetchFavoritesSaga);
     yield takeEvery('REMOVE_FAVORITE', removeFavoriteSaga);
