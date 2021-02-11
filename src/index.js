@@ -19,9 +19,18 @@ function* fetchGiphySaga(action) {
     }
 }
 
+function* fetchFavoritesSaga() {
+    try {
+        let response = yield axios.get('/api/favorite');
+        yield put({type: 'SET_FAVORITES', payload: response.data});
+    } catch (error) {
+        console.log('Error in fetch', error);
+    };
+};
 
 function* rootGiphySaga() {
     yield takeEvery('FETCH_GIPHY', fetchGiphySaga);
+    yield takeEvery('FETCH_FAVORITES', fetchFavoritesSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -35,9 +44,18 @@ const giphyReducer = (state = [], action) => {
     }
 }
 
+const favoritesReducer = (state = [], action) => {
+    if (action.type === 'SET_FAVORITES') {
+        return action.payload;
+    };
+
+    return state;
+};
+
 const storeInstance = createStore(
     combineReducers({
-        giphyReducer
+        giphyReducer,
+        favoritesReducer
     }),
     applyMiddleware(sagaMiddleware, logger)
 )
