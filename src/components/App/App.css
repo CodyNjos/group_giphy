@@ -1,0 +1,22 @@
+.app{
+    text-align: center;
+    
+}
+.header{
+    background-color: #002884;
+    padding:2rem;
+    color: white
+}
+.inputForm{
+ margin: 1rem;
+}
+.inputForm Button{
+    margin: 1rem;
+}
+.inputForm input{
+    width: 15rem;
+}
+img {
+    height: 25rem;
+
+}
