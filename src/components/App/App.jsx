@@ -27,8 +27,8 @@ function App() {
         <div className='header'>
           <h1>Giphy Search!</h1>
           <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/favorites'>Favorites</Link>
+            <Button variant="contained" color="primary"><Link to='/' className='nav-text'>Home</Link></Button>
+            <Button variant="contained" color="primary"><Link to='/favorites' className='nav-text'>Favorites</Link></Button>
           </nav>
         </div>
         <Switch>
@@ -49,7 +49,7 @@ function App() {
             {store.giphyListReducer.data.map((gif, i) => 
               <div key={i}>
                 <img src={gif.images.downsized_large.url} />
-                <Button variant="contained" color="primary" onClick={() => dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}>Favorite</Button>
+                <Button variant="contained" color="primary" onClick={() => {alert('Added to favorites list'); dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}}>Favorite</Button>
               </div>
             )}
 

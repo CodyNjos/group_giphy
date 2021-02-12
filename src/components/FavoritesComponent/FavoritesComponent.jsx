@@ -60,7 +60,16 @@ function FavoritesComponent() {
                                             image={favorite.url} />
                                         <CardContent>
                                             <Typography gutterBottom variant="h5" component="h2">
-                                                {favorite.name}
+                                                <p>Category: {favorite.name ? favorite.name :
+                                                    reduxStore.categoryReducer.map(category => {
+                                                        return (
+                                                            <>
+                                                                <input type="radio" name="category" id={category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: { categoryId: category.id, gifId: favorite.id } })} />
+                                                                <label htmlFor={category.id}>{category.name}</label>
+                                                            </>
+                                                        );
+                                                    })
+                                                }</p>
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
