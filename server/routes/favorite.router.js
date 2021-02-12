@@ -17,7 +17,6 @@ router.get('/random', (req, res) => {
 });
 
 router.post('/tag/:search', (req, res) => {
-  console.log(req.params.search)
   const GIPHY_URL = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API_KEY}&tag=${req.params.search}`
 
   axios.get(GIPHY_URL).then(response => {
@@ -44,8 +43,26 @@ router.get('/', (req, res) => {
 });
 
 // add a new favorite
-router.post('/', (req, res) => {
-  res.sendStatus(200);
+router.post('/addfavorite', (req, res) => {
+  console.log('Adding gif to favorites');
+  const gifUrl = req.body.url;
+  const categoryId = req.body.categoryId;
+
+  if (!gifUrl || !categoryId) {
+    console.log('Please post valid responses');
+    res.sendStatus(400);
+    return;
+  };
+
+  const queryText = `INSERT INTO "favorites" ("url", "category_id") VALUES ($1, $2);`;
+
+  pool.query(queryText, [gifUrl, categoryId]).then(() => {
+    console.log('Favorite added successfully');
+    res.sendStatus(201);
+  }).catch(err => {
+    console.log('Error in post', err);
+    res.sendStatus(500);
+  });
 });
 
 // update given favorite with a category id
