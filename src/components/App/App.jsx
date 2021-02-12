@@ -4,8 +4,17 @@ import { useState } from 'react';
 import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { TextField, Button } from '@material-ui/core';
 import './App.css'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import FavoritesComponent from '../FavoritesComponent/FavoritesComponent.jsx';
-
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 function App() {
   const [category, setNewCategory] = useState('');
   const dispatch = useDispatch();
@@ -19,7 +28,30 @@ function App() {
   useEffect(() => {
     dispatch({ type: 'FETCH_CATEGORIES' });
   }, [])
+  const useStyles = makeStyles({
+    root: {
+      maxWidth: 345,
+    },
+    media: {
+      height: 240,
+    },
+  });
+  const classes = useStyles();
 
+  const useStyles2 = makeStyles((theme: Theme) => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      overflow: 'hidden',
+      backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+      width: 500,
+      height: 450,
+    },
+  }));
+  const classes2 = useStyles2();
   return (
     <Router>
 
@@ -46,13 +78,27 @@ function App() {
                 <Button variant="contained" color="primary" type="submit">SEARCH</Button>
               </form>
             </div>
+            <div className={classes2.root}>
+
+              <GridList cellHeight={450} className={classes.gridList} cols={4}>
             {store.giphyListReducer.data.map((gif, i) => 
-              <div key={i}>
-                <img src={gif.images.downsized_large.url} /><br/>
+            < div key = { i } >
+              <GridListTile >
+                <Card className={classes.root}>
+                  <CardActionArea>
+                    <CardMedia className={classes.media}
+           
+                image={gif.images.downsized_large.url} />
+              
                 <Button variant="contained" color="primary" onClick={() => {alert('Added to favorites list'); dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}}>Favorite</Button>
+           
+              </CardActionArea>
+                </Card>
+              </GridListTile>
               </div>
             )}
-
+              </GridList>
+            </div>
           </Route>
           <Route path='/favorites'>
             <FavoritesComponent />
