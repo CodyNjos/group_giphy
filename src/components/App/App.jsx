@@ -16,13 +16,6 @@ function App() {
     dispatch({ type: 'NEW_GIPHY', payload: category });
   };
 
-<<<<<<< HEAD
-=======
-  const addToFavorites = () => {
-    dispatch({ type: 'ADD_FAVORITE', payload: store.giphyReducer });
-  };
-
->>>>>>> main
   useEffect(() => {
     dispatch({ type: 'FETCH_CATEGORIES' });
   }, [])
