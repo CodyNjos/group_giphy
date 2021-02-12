@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { TextField, Button } from '@material-ui/core';
 function FavoritesComponent() {
     const dispatch = useDispatch();
     const reduxStore = useSelector(store => store.favoritesReducer);
@@ -11,11 +11,11 @@ function FavoritesComponent() {
 
     return (
         <>
-            {reduxStore.map(favorite => 
+            {reduxStore.map(favorite =>
                 <div key={favorite.id}>
-                    <img src={favorite.url}/>
+                    <img src={favorite.url} />
                     <p>Category: {favorite.name}</p>
-                    <button onClick={() => dispatch({type: 'REMOVE_FAVORITE', payload: favorite.id})}>Remove From Favorites</button>
+                    <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'REMOVE_FAVORITE', payload: favorite.id })}>Remove From Favorites</Button>
                 </div>
             )}
         </>
