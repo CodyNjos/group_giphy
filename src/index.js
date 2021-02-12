@@ -8,25 +8,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 
-function* fetchGiphySaga() {
-    try {
-        let response = yield axios.get('/api/category');
-
-        yield put({ type: 'SET_GIPHY', payload: response.data });
-    } catch (error) {
-        console.log(`Error fetching giphy`, error);
-    };
-
-};
-
-function* newGif(action) {
+function* fetchGiphyListSaga(action) {
     console.log('newGif', action.payload)
     try {
-        let response = yield axios.post(`/api/favorite/tag/${action.payload}`)
-        yield put({ type: 'SET_GIPHY', payload: response.data })
+        let response = yield axios.get(`/api/favorite/search/${action.payload}`)
+        yield put({ type: 'SET_LIST', payload: response.data })
     } catch (error) {
         console.log(`Error getting new gif`, error);
-
     };
 };
 
@@ -59,16 +47,14 @@ function* fetchCategorySaga() {
 
 function* addFavoriteSaga(action) {
     try {
-        yield axios.post(`api/favorite/addfavorite`, action.payload);
-        yield put({ type: 'RESET_STATE' });
+        yield axios.post(`api/favorite/addfavorite`, {payload: action.payload});
     } catch (error) {
         console.log('Error in add', error);
     };
 };
 
 function* rootGiphySaga() {
-    yield takeEvery('NEW_GIPHY', newGif)
-    yield takeEvery('FETCH_GIPHY', fetchGiphySaga);
+    yield takeEvery('NEW_GIPHY', fetchGiphyListSaga)
     yield takeEvery('FETCH_FAVORITES', fetchFavoritesSaga);
     yield takeEvery('REMOVE_FAVORITE', removeFavoriteSaga);
     yield takeEvery('FETCH_CATEGORIES', fetchCategorySaga);
@@ -76,6 +62,13 @@ function* rootGiphySaga() {
 };
 
 const sagaMiddleware = createSagaMiddleware();
+
+const giphyListReducer = (state = { data: [] }, action) => {
+    if (action.type === 'SET_LIST') {
+        return action.payload;
+    };
+    return state;
+};
 
 const giphyReducer = (state = { url: '', categoryId: 0 }, action) => {
     let newState = { ...state };
@@ -115,7 +108,8 @@ const storeInstance = createStore(
     combineReducers({
         giphyReducer,
         favoritesReducer,
-        categoryReducer
+        categoryReducer,
+        giphyListReducer
     }),
     applyMiddleware(sagaMiddleware, logger)
 );

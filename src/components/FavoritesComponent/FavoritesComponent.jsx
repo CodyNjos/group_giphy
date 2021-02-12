@@ -47,6 +47,7 @@ function FavoritesComponent() {
     const classes2 = useStyles2();
     return (
         <>
+
         <div className ={classes2.root}>
       
                 <GridList cellHeight={450} className={classes.gridList} cols={3}>
@@ -68,6 +69,7 @@ function FavoritesComponent() {
                     onClick={() => dispatch({type: 'REMOVE_FAVORITE', payload: favorite.id})}>Remove From Favorites</Button>
                         </CardActions>
                 </Card>
+
                 </div>
                 </GridListTile>
              
