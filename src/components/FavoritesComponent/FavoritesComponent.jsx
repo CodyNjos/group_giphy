@@ -28,55 +28,55 @@ function FavoritesComponent() {
         media: {
             height: 240,
         },
-    }); 
+    });
     const classes = useStyles();
 
-    const useStyles2 = makeStyles((theme: Theme) =>({
+    const useStyles2 = makeStyles((theme: Theme) => ({
         root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
-    },
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            overflow: 'hidden',
+            backgroundColor: theme.palette.background.paper,
+        },
         gridList: {
-        width: 500,
-        height: 450,
-    },
+            width: 500,
+            height: 450,
+        },
     }));
     const classes2 = useStyles2();
     return (
         <>
 
-        <div className ={classes2.root}>
-      
-                <GridList cellHeight={450} className={classes.gridList} cols={3}>
-            {reduxStore.map(favorite => 
-                <GridListTile >
-                <div className = "card" key={favorite.id}>
-                <Card className={classes.root}>
-                        <CardActionArea>
-                            <CardMedia className={classes.media}
-                                image = {favorite.url}/>   
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                             {favorite.name}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                            <Button size="small" color="primary"
-                    onClick={() => dispatch({type: 'REMOVE_FAVORITE', payload: favorite.id})}>Remove From Favorites</Button>
-                        </CardActions>
-                </Card>
+            <div className={classes2.root}>
 
-                </div>
-                </GridListTile>
-             
-            )}
-            </GridList>
-                 
-            
+                <GridList cellHeight={450} className={classes.gridList} cols={3}>
+                    {reduxStore.map(favorite =>
+                        <GridListTile >
+                            <div className="card" key={favorite.id}>
+                                <Card className={classes.root}>
+                                    <CardActionArea>
+                                        <CardMedia className={classes.media}
+                                            image={favorite.url} />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                {favorite.name}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions>
+                                        <Button size="small" color="primary"
+                                            onClick={() => dispatch({ type: 'REMOVE_FAVORITE', payload: favorite.id })}>Remove From Favorites</Button>
+                                    </CardActions>
+                                </Card>
+
+                            </div>
+                        </GridListTile>
+
+                    )}
+                </GridList>
+
+
             </div>
         </>
     );
