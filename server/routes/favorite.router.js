@@ -20,7 +20,8 @@ router.get('/search/:search', (req, res) => {
 router.get('/', (req, res) => {
   console.log('retrieving all favorites');
   const queryText = `SELECT f.id, url, category_id, name FROM "favorites" as f
-                    FULL OUTER JOIN "category" as c on f."category_id" = c."id";`;
+                    FULL OUTER JOIN "category" as c on f."category_id" = c."id"
+                    WHERE f.id IS NOT NULL;`;
 
   pool.query(queryText).then(response => {
     console.log('Retrieved all favorites successfully');
@@ -54,8 +55,9 @@ router.post('/addfavorite', (req, res) => {
 });
 
 // update given favorite with a category id
-router.put('/:favId', (req, res) => {
+router.put('/category/:favId', (req, res) => {
   // req.body should contain a category_id to add to this favorite image
+  console.log(req.body)
   res.sendStatus(200);
 });
 

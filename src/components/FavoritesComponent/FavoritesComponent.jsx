@@ -16,7 +16,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 
 function FavoritesComponent() {
     const dispatch = useDispatch();
-    const reduxStore = useSelector(store => store.favoritesReducer);
+    const reduxStore = useSelector(store => store);
 
     useEffect(() => {
         dispatch({ type: 'FETCH_FAVORITES' });
@@ -51,7 +51,7 @@ function FavoritesComponent() {
             <div className={classes2.root}>
 
                 <GridList cellHeight={450} className={classes.gridList} cols={3}>
-                    {reduxStore.map(favorite =>
+                    {reduxStore.favoritesReducer.map(favorite =>
                         <GridListTile >
                             <div className="card" key={favorite.id}>
                                 <Card className={classes.root}>
@@ -60,7 +60,22 @@ function FavoritesComponent() {
                                             image={favorite.url} />
                                         <CardContent>
                                             <Typography gutterBottom variant="h5" component="h2">
-                                                {favorite.name}
+                                                <p>Category: {favorite.name ? favorite.name :
+                                                    reduxStore.categoryReducer.map(category => {
+                                                        return (
+                                                            <>
+                                                                <input type="radio" name="category" id={category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: { categoryId: category.id, gifId: favorite.id } })} />
+                                                                <label htmlFor={category.id}>{category.name}</label>
+                                                            </>
+                                                        );
+                                                    })
+                                                }</p>
+
+
+
+
+
+
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>

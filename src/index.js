@@ -48,6 +48,16 @@ function* fetchCategorySaga() {
 function* addFavoriteSaga(action) {
     try {
         yield axios.post(`api/favorite/addfavorite`, {payload: action.payload});
+        yield put({ type: 'FETCH_FAVORITES' });
+    } catch (error) {
+        console.log('Error in add', error);
+    };
+};
+
+function* setCategorySaga(action) {
+    try {
+        yield axios.put(`api/favorite/category/${action.payload.gifId}`, {payload: action.payload.categoryId})
+        yield put({ type: 'FETCH_FAVORITES' });
     } catch (error) {
         console.log('Error in add', error);
     };
@@ -59,6 +69,7 @@ function* rootGiphySaga() {
     yield takeEvery('REMOVE_FAVORITE', removeFavoriteSaga);
     yield takeEvery('FETCH_CATEGORIES', fetchCategorySaga);
     yield takeEvery('ADD_FAVORITE', addFavoriteSaga)
+    yield takeEvery('SET_CATEGORYID', setCategorySaga)
 };
 
 const sagaMiddleware = createSagaMiddleware();
@@ -68,23 +79,6 @@ const giphyListReducer = (state = { data: [] }, action) => {
         return action.payload;
     };
     return state;
-};
-
-const giphyReducer = (state = { url: '', categoryId: 0 }, action) => {
-    let newState = { ...state };
-
-    switch (action.type) {
-        case 'SET_GIPHY':
-            newState.url = action.payload;
-            return newState;
-        case 'SET_CATEGORYID':
-            newState.categoryId = action.payload;
-            return newState;
-        case 'RESET_STATE':
-            return { url: '', categoryId: 0 };
-        default:
-            return state;
-    };
 };
 
 const categoryReducer = (state = [], action) => {
@@ -106,7 +100,6 @@ const favoritesReducer = (state = [], action) => {
 
 const storeInstance = createStore(
     combineReducers({
-        giphyReducer,
         favoritesReducer,
         categoryReducer,
         giphyListReducer
