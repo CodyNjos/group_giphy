@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
   console.log('retrieving all favorites');
   const queryText = `SELECT f.id, url, category_id, name FROM "favorites" as f
                     FULL OUTER JOIN "category" as c on f."category_id" = c."id"
-                    WHERE f.id IS NOT NULL;`;
+                    WHERE f.id IS NOT NULL ORDER BY f.id ASC;`;
 
   pool.query(queryText).then(response => {
     console.log('Retrieved all favorites successfully');
@@ -57,8 +57,25 @@ router.post('/addfavorite', (req, res) => {
 // update given favorite with a category id
 router.put('/category/:favId', (req, res) => {
   // req.body should contain a category_id to add to this favorite image
+<<<<<<< HEAD
   console.log(req.body)
   res.sendStatus(200);
+=======
+  const gifId = req.params.favId;
+  const catId = req.body.payload;
+  console.log(`Updating the category at favId: ${gifId} to category Id: ${catId}`);
+  console.log(catId, gifId)
+  const queryText = `UPDATE "favorites" SET "category_id" = $1
+                    WHERE "id" = $2;`;
+
+  pool.query(queryText, [catId, gifId]).then(() => {
+    console.log(`Updated the category at favId: ${gifId} to category Id: ${catId} successfully`);
+    res.sendStatus(200);
+  }).catch(err => {
+    console.log('Error in update', err);
+    res.sendStatus(500);
+  });
+>>>>>>> 1f96448f0996593ba26901a80d4d56321c3743cd
 });
 
 // delete a favorite

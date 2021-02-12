@@ -70,12 +70,6 @@ function FavoritesComponent() {
                                                         );
                                                     })
                                                 }</p>
-
-
-
-
-
-
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
