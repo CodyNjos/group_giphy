@@ -20,7 +20,7 @@ router.post('/tag/:search', (req, res) => {
   const GIPHY_URL = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API_KEY}&tag=${req.params.search}`
 
   axios.get(GIPHY_URL).then(response => {
-      res.status(200).send(response.data.data.images.downsized_medium.url);
+      res.status(200).send(response.data.data.images.downsized_large.url);
   }).catch(err => {
       console.log('Error getting gif', err.response)
       res.send(500);

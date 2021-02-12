@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
-
+import { TextField, Button } from '@material-ui/core';
+import './App.css'
 import FavoritesComponent from '../FavoritesComponent/FavoritesComponent.jsx';
 import reduxSaga from 'redux-saga';
 
@@ -26,23 +27,30 @@ function App() {
 
   return (
     <Router>
-      <div>
+
+      <div className="app">
+        <div className='header'>
         <h1>Giphy Search!</h1>
         <nav>
           <Link to='/'>Home</Link>
           <Link to='/favorites'>Favorites</Link>
         </nav>
-
+        </div>
         <Switch>
           <Route exact path='/'>
-            <form onSubmit={retriveGihpy}>
-              <input
-                placeholder="category"
-                value={category}
-                onChange={event => setNewCategory(event.target.value)}
-              />
-              <button type="submit">ENTER</button>
-            </form>
+          <div className='inputForm'>
+              <form  onSubmit={retriveGihpy}>
+                <TextField
+                  id="outlined-basic"
+                  label="Category"
+                  variant="outlined"
+                  value={category}
+                  onChange={event => setNewCategory(event.target.value)}
+                />
+                <br/>
+                <Button variant="contained" color="primary" type="submit">SEARCH</Button>
+              </form>
+            </div>
             <div>
               {store.categoryReducer.map(category => {
                 return (
@@ -56,8 +64,9 @@ function App() {
             {store.giphyReducer.url &&
               <div>
                 <img src={store.giphyReducer.url} />
-                <button onClick={addToFavorites}>Favorite</button>
+                <Button variant="contained" color="primary" onClick={addToFavorites}>Favorite</Button>
               </div>}
+
           </Route>
           <Route path='/favorites'>
             <FavoritesComponent />
