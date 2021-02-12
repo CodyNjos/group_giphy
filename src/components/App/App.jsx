@@ -27,8 +27,8 @@ function App() {
         <div className='header'>
           <h1>Giphy Search!</h1>
           <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/favorites'>Favorites</Link>
+            <Button variant="contained" color="primary"><Link to='/' className='nav-text'>Home</Link></Button>
+            <Button variant="contained" color="primary"><Link to='/favorites' className='nav-text'>Favorites</Link></Button>
           </nav>
         </div>
         <Switch>
@@ -46,20 +46,10 @@ function App() {
                 <Button variant="contained" color="primary" type="submit">SEARCH</Button>
               </form>
             </div>
-            <div>
-              {/* {store.categoryReducer.map(category => {
-                return (
-                  <>
-                    <input type="radio" name="category" id={category.id} checked={store.giphyReducer.categoryId === category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: category.id })} />
-                    <label htmlFor={category.id}>{category.name}</label>
-                  </>
-                );
-              })} */}
-            </div>
             {store.giphyListReducer.data.map((gif, i) => 
               <div key={i}>
                 <img src={gif.images.downsized_large.url} />
-                <Button variant="contained" color="primary" onClick={() => dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}>Favorite</Button>
+                <Button variant="contained" color="primary" onClick={() => {alert('Added to favorites list'); dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}}>Favorite</Button>
               </div>
             )}
 
