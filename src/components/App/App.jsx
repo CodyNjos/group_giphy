@@ -46,16 +46,6 @@ function App() {
                 <Button variant="contained" color="primary" type="submit">SEARCH</Button>
               </form>
             </div>
-            <div>
-              {/* {store.categoryReducer.map(category => {
-                return (
-                  <>
-                    <input type="radio" name="category" id={category.id} checked={store.giphyReducer.categoryId === category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: category.id })} />
-                    <label htmlFor={category.id}>{category.name}</label>
-                  </>
-                );
-              })} */}
-            </div>
             {store.giphyListReducer.data.map((gif, i) => 
               <div key={i}>
                 <img src={gif.images.downsized_large.url} />
