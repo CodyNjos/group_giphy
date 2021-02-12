@@ -16,6 +16,13 @@ function App() {
     dispatch({ type: 'NEW_GIPHY', payload: category });
   };
 
+<<<<<<< HEAD
+=======
+  const addToFavorites = () => {
+    dispatch({ type: 'ADD_FAVORITE', payload: store.giphyReducer });
+  };
+
+>>>>>>> main
   useEffect(() => {
     dispatch({ type: 'FETCH_CATEGORIES' });
   }, [])
@@ -25,16 +32,16 @@ function App() {
 
       <div className="app">
         <div className='header'>
-        <h1>Giphy Search!</h1>
-        <nav>
-          <Link to='/'>Home</Link>
-          <Link to='/favorites'>Favorites</Link>
-        </nav>
+          <h1>Giphy Search!</h1>
+          <nav>
+            <Link to='/'>Home</Link>
+            <Link to='/favorites'>Favorites</Link>
+          </nav>
         </div>
         <Switch>
           <Route exact path='/'>
-          <div className='inputForm'>
-              <form  onSubmit={retriveGihpy}>
+            <div className='inputForm'>
+              <form onSubmit={retriveGihpy}>
                 <TextField
                   id="outlined-basic"
                   label="Category"
@@ -42,7 +49,7 @@ function App() {
                   value={category}
                   onChange={event => setNewCategory(event.target.value)}
                 />
-                <br/>
+                <br />
                 <Button variant="contained" color="primary" type="submit">SEARCH</Button>
               </form>
             </div>
