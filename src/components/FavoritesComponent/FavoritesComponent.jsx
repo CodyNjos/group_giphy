@@ -11,11 +11,11 @@ function FavoritesComponent() {
 
     return (
         <>
-            {reduxStore.map(favorite => 
+            {reduxStore.map(favorite =>
                 <div key={favorite.id}>
-                    <img src={favorite.url}/>
+                    <img src={favorite.url} />
                     <p>Category: {favorite.name}</p>
-                    <Button variant="contained" color="primary" onClick={() => dispatch({type: 'REMOVE_FAVORITE', payload: favorite.id})}>Remove From Favorites</Button>
+                    <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'REMOVE_FAVORITE', payload: favorite.id })}>Remove From Favorites</Button>
                 </div>
             )}
         </>
