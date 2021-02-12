@@ -48,7 +48,7 @@ function App() {
             </div>
             {store.giphyListReducer.data.map((gif, i) => 
               <div key={i}>
-                <img src={gif.images.downsized_large.url} />
+                <img src={gif.images.downsized_large.url} /><br/>
                 <Button variant="contained" color="primary" onClick={() => {alert('Added to favorites list'); dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}}>Favorite</Button>
               </div>
             )}

@@ -18,10 +18,14 @@
 }
 img {
     height: 25rem;
+    margin: 1rem;
 
 }
 
 .nav-text {
     color: white;
     text-decoration: none;
+}
+Button {
+    margin: 1rem;
 }

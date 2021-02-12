@@ -57,10 +57,6 @@ router.post('/addfavorite', (req, res) => {
 // update given favorite with a category id
 router.put('/category/:favId', (req, res) => {
   // req.body should contain a category_id to add to this favorite image
-<<<<<<< HEAD
-  console.log(req.body)
-  res.sendStatus(200);
-=======
   const gifId = req.params.favId;
   const catId = req.body.payload;
   console.log(`Updating the category at favId: ${gifId} to category Id: ${catId}`);
@@ -75,7 +71,6 @@ router.put('/category/:favId', (req, res) => {
     console.log('Error in update', err);
     res.sendStatus(500);
   });
->>>>>>> 1f96448f0996593ba26901a80d4d56321c3743cd
 });
 
 // delete a favorite
