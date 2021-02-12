@@ -5,6 +5,16 @@ const { default: axios } = require('axios');
 const router = express.Router();
 console.log(`your API key is:${process.env.GIPHY_API_KEY}`)
 
+<<<<<<< HEAD
+router.get('/search/:search', (req, res) => {
+  const GIPHY_URL = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${req.params.search}&limit=10`
+
+  axios.get(GIPHY_URL).then(response => {
+      res.status(200).send(response.data);
+  }).catch(err => {
+      console.log('Error getting gif', err.response)
+      res.send(500);
+=======
 router.post('/tag/:search', (req, res) => {
   const GIPHY_URL = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API_KEY}&tag=${req.params.search}`
 
@@ -13,6 +23,7 @@ router.post('/tag/:search', (req, res) => {
   }).catch(err => {
     console.log('Error getting gif', err.response)
     res.send(500);
+>>>>>>> main
   });
 });
 
@@ -20,7 +31,7 @@ router.post('/tag/:search', (req, res) => {
 router.get('/', (req, res) => {
   console.log('retrieving all favorites');
   const queryText = `SELECT f.id, url, category_id, name FROM "favorites" as f
-                    JOIN "category" as c on f."category_id" = c."id";`;
+                    FULL OUTER JOIN "category" as c on f."category_id" = c."id";`;
 
   pool.query(queryText).then(response => {
     console.log('Retrieved all favorites successfully');
@@ -34,18 +45,17 @@ router.get('/', (req, res) => {
 // add a new favorite
 router.post('/addfavorite', (req, res) => {
   console.log('Adding gif to favorites');
-  const gifUrl = req.body.url;
-  const categoryId = req.body.categoryId;
-
-  if (!gifUrl || !categoryId) {
+  const gifUrl = req.body.payload;
+  
+  if (!gifUrl) {
     console.log('Please post valid responses');
     res.sendStatus(400);
     return;
   };
 
-  const queryText = `INSERT INTO "favorites" ("url", "category_id") VALUES ($1, $2);`;
+  const queryText = `INSERT INTO "favorites" ("url") VALUES ($1);`;
 
-  pool.query(queryText, [gifUrl, categoryId]).then(() => {
+  pool.query(queryText, [gifUrl]).then(() => {
     console.log('Favorite added successfully');
     res.sendStatus(201);
   }).catch(err => {
