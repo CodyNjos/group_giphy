@@ -64,7 +64,7 @@ function App() {
             {store.giphyReducer.url &&
               <div>
                 <img src={store.giphyReducer.url} />
-                <Button onClick={addToFavorites}>Favorite</Button>
+                <Button variant="contained" color="primary" onClick={addToFavorites}>Favorite</Button>
               </div>}
 
           </Route>
