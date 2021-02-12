@@ -47,7 +47,7 @@ function App() {
               {store.categoryReducer.map(category => {
                 return (
                   <>
-                    <input type="radio" name="category" id={category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: category.id })} />
+                    <input type="radio" name="category" id={category.id} checked={store.giphyReducer.categoryId === category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: category.id })} />
                     <label htmlFor={category.id}>{category.name}</label>
                   </>
                 );
