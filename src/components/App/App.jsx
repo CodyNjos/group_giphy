@@ -5,7 +5,6 @@ import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { TextField, Button } from '@material-ui/core';
 import './App.css'
 import FavoritesComponent from '../FavoritesComponent/FavoritesComponent.jsx';
-import reduxSaga from 'redux-saga';
 
 function App() {
   const [category, setNewCategory] = useState('');
@@ -15,10 +14,6 @@ function App() {
   const retriveGihpy = (event) => {
     event.preventDefault();
     dispatch({ type: 'NEW_GIPHY', payload: category });
-  };
-
-  const addToFavorites = () => {
-    dispatch({type: 'ADD_FAVORITE', payload: store.giphyReducer});
   };
 
   useEffect(() => {
@@ -52,20 +47,21 @@ function App() {
               </form>
             </div>
             <div>
-              {store.categoryReducer.map(category => {
+              {/* {store.categoryReducer.map(category => {
                 return (
                   <>
                     <input type="radio" name="category" id={category.id} checked={store.giphyReducer.categoryId === category.id} onChange={() => dispatch({ type: 'SET_CATEGORYID', payload: category.id })} />
                     <label htmlFor={category.id}>{category.name}</label>
                   </>
                 );
-              })}
+              })} */}
             </div>
-            {store.giphyReducer.url &&
-              <div>
-                <img src={store.giphyReducer.url} />
-                <Button variant="contained" color="primary" onClick={addToFavorites}>Favorite</Button>
-              </div>}
+            {store.giphyListReducer.data.map((gif, i) => 
+              <div key={i}>
+                <img src={gif.images.downsized_large.url} />
+                <Button variant="contained" color="primary" onClick={() => dispatch({type: 'ADD_FAVORITE', payload: gif.images.downsized_large.url})}>Favorite</Button>
+              </div>
+            )}
 
           </Route>
           <Route path='/favorites'>
